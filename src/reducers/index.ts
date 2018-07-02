@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import joke, { JokeState } from './joke';
 
-export interface State {
-  joke: JokeState;
-}
+// Reducers
+import global from './global';
 
-export default combineReducers({
-  joke,
+const rootReducer = combineReducers({
+  global,
 });
+
+export default rootReducer;

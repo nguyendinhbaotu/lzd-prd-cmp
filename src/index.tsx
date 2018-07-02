@@ -1,30 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import { AppContainer } from 'react-hot-loader';
-import { BrowserRouter as Router } from 'react-router-dom';
-import configureStore from './configureStore';
-import App from './components/App';
+import Root from './containers/Root';
 
-const store = configureStore();
+const store = require('./store').default();
 
-// tslint:disable-next-line:variable-name
-function renderMain(App: React.ReactType) {
-  return (
-    <AppContainer>
-      <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
-      </Provider>
-    </AppContainer>
-  );
-}
+declare const module: any;
 
-render(renderMain(App), document.getElementById('root'));
+render(<Root store={store} />, document.getElementById('root'));
 
 if (module.hot) {
-  module.hot.accept('./components/App', () => {
-    render(renderMain(require('./components/App').default), document.getElementById('root'));
+  module.hot.accept('./containers/Root', () => {
+    const NextApp = require('./containers/Root').default;
+    render(<Root store={store} />, document.getElementById('root'));
   });
 }

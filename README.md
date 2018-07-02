@@ -1,57 +1,31 @@
-# React Redux TypeScript Boilerplate
+# React, Redux, React Router, TypeScript, SASS, Webpack Quickstart Boilerplate
 
-This project can serve as a starting point for new projects building a website with React.
-It comes with batteries included, but tries to stay as unopiniated as possible while still providign sensible defaults.
+Grabbing a boilerplate should be easy. No complicated stuff - just a simple and quick way to
+prototype an application or try a new framework or library. This is why I built this
+boilerplate meant for front-end development who are deciding to use this stack
+or similar. Get up and running quick with some of the most common or uprising technologies
+and not have to worry about complicated boilerplate stuff.
 
-It comes configured with the following tools:
+What's included:
+- [x] [React](https://github.com/facebook/react)
+- [x] [Redux](https://github.com/reactjs/redux)
+- [x] [react-router](https://github.com/ReactTraining/react-router)
+- [x] [redux-thunk](https://github.com/gaearon/redux-thunk)
+- [x] [TypesScript](https://github.com/Microsoft/TypeScript)
+- [x] [SASS](https://github.com/sass/sass)
+- [x] [HMR](https://github.com/gaearon/react-hot-loader)
+- [x] [webpack 2](https://github.com/webpack/webpack)
+- [x] [webpack-dev-server 2](https://github.com/webpack/webpack-dev-server)
+- [x] [yarn](https://github.com/yarnpkg/yarn)
 
-* React
-* Redux for state management
-* Hot-reloading for React & Redux
-* React-Router 4
-* SASS & CSS Modules for styles
-* TypeScript
-* Babel with preset-env, so you can transpile the featurs you need to support your desired browsers
-* Webpack for building
-* TSLint
-* Jest with configuration to support the environment, i.e. TypeScript and Babel, CSS modules and webpack-file-loader
+## Getting Started
+```bash
+// Install yarn
+npm i -g yarn
 
-## Getting started
+// Install packages with yarn
+yarn install
 
-To get started building an application with this boilerplate, clone the repository or download the source.
-Then run `yarn install` (`npm install` will probably also work, but usage of yarn is recommended to make sure you get the right versions of all dependencies).
-
-You can then customize `package.json` to include your own information, such as app name, author, repository, etc. and start building your app!
-
-This boilerplate tries to keep all configuration as minimal and centralized as possible so it is easy to understand and replace parts of it as you desire.
-Very little abstraction is employed.
-
-It tries not to make assumptions about your tooling or workflow and only includes the "bare bones" required to get started.
-
-## NPM / Yarn scripts
-
-The following scripts are provided to build, lint, etc:
-
-* `clean` removes the build directory
-* `build:dev` builds your site for use in a development environment and outputs it to `dist`
-* `build:prod` builds your site for deployment to a production environment
-* `dev-server` starts the server for hot reloading
-* `tslint` runs TSLint with the configured settings
-* `test` runs all your tests
-
-## Linting
-
-This boilerplate comes with TSLint and a mostly unmodified preset for the [Airbnb style guide](https://github.com/airbnb/javascript/).
-It is one of the most widely used styleguides by the JS community.
-Feel free to switch it out for one you like better.
-
-## Testing
-
-Tests are written with Jest and picked up anywhere in the `src` directory if they include `.test` or `.spec` (e.g. `Home.spec.tsx`).
-
-## Contributing
-
-All further information is only relevant if you wish to contribute to this repository.
-At this time there are no set guidelines for contributing.
-If you want to add or change something, please open an issue to discuss it and send a pull request.
-All additions should follow the guidelines for the purpose of this boilerplate outlined above.
+// Start development server with yarn
+yarn start
+```
