@@ -1,66 +1,57 @@
-# Frontend Boilerplate with React, Redux & TypeScript
+# React Redux TypeScript Boilerplate
 
-A bare minimum react-redux-webpack-typescript boilerplate with TodoMVC example. 
+This project can serve as a starting point for new projects building a website with React.
+It comes with batteries included, but tries to stay as unopiniated as possible while still providign sensible defaults.
 
-[Live demo](https://rokoroku.github.io/react-redux-typescript-boilerplate)
+It comes configured with the following tools:
 
-Note that this project does not include **Server-Side Rendering**,  **Testing Frameworks** and other stuffs that makes the package unnecessarily complicated.
+* React
+* Redux for state management
+* Hot-reloading for React & Redux
+* React-Router 4
+* SASS & CSS Modules for styles
+* TypeScript
+* Babel with preset-env, so you can transpile the featurs you need to support your desired browsers
+* Webpack for building
+* TSLint
+* Jest with configuration to support the environment, i.e. TypeScript and Babel, CSS modules and webpack-file-loader
 
-Ideal for creating React apps from the scratch.
+## Getting started
 
-See also: [react-mobx-typescript-boilerplate](https://github.com/rokoroku/react-mobx-typescript-boilerplate)
+To get started building an application with this boilerplate, clone the repository or download the source.
+Then run `yarn install` (`npm install` will probably also work, but usage of yarn is recommended to make sure you get the right versions of all dependencies).
 
-### Branches
-- [`feature-tslint`](https://github.com/rokoroku/react-redux-typescript-boilerplate/tree/feature/tslint): yarn + tslint + prettier integrated branch.
+You can then customize `package.json` to include your own information, such as app name, author, repository, etc. and start building your app!
 
-## Contains
+This boilerplate tries to keep all configuration as minimal and centralized as possible so it is easy to understand and replace parts of it as you desire.
+Very little abstraction is employed.
 
-- [x] [Typescript](https://www.typescriptlang.org/) 2.9
-- [x] [React](https://facebook.github.io/react/) 16.4
-- [x] [Redux](https://github.com/reactjs/redux) 4
-- [x] [React Router](https://github.com/ReactTraining/react-router) 4.3
-- [x] [React Router Redux](https://github.com/reactjs/react-router-redux) 5
-- [x] [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
-- [x] [TodoMVC example](http://todomvc.com)
+It tries not to make assumptions about your tooling or workflow and only includes the "bare bones" required to get started.
 
-### Build tools
+## NPM / Yarn scripts
 
-- [x] [Webpack](https://webpack.github.io) 4
-  - [x] [Tree Shaking](https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80)
-  - [x] [Webpack Dev Server](https://github.com/webpack/webpack-dev-server)
-- [x] [Typescript Loader](https://github.com/TypeStrong/ts-loader)
-- [x] [PostCSS Loader](https://github.com/postcss/postcss-loader)
-  - [x] [CSS next](https://github.com/MoOx/postcss-cssnext)
-  - [x] [CSS modules](https://github.com/css-modules/css-modules)
-- [x] [React Hot Loader](https://github.com/gaearon/react-hot-loader)
-- [x] [Mini CSS Extract Plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)
-- [x] [HTML Webpack Plugin](https://github.com/ampedandwired/html-webpack-plugin)
-- [x] [Prettier](https://github.com/prettier/prettier)
+The following scripts are provided to build, lint, etc:
 
-## Setup
+* `clean` removes the build directory
+* `build:dev` builds your site for use in a development environment and outputs it to `dist`
+* `build:prod` builds your site for deployment to a production environment
+* `dev-server` starts the server for hot reloading
+* `tslint` runs TSLint with the configured settings
+* `test` runs all your tests
 
-```
-$ npm install
-```
+## Linting
 
-## Running
+This boilerplate comes with TSLint and a mostly unmodified preset for the [Airbnb style guide](https://github.com/airbnb/javascript/).
+It is one of the most widely used styleguides by the JS community.
+Feel free to switch it out for one you like better.
 
-```
-$ npm start
-```
+## Testing
 
-## Build
+Tests are written with Jest and picked up anywhere in the `src` directory if they include `.test` or `.spec` (e.g. `Home.spec.tsx`).
 
-```
-$ npm run build
-```
+## Contributing
 
-## Prettier
-
-```
-$ npm run prettier
-```
-
-# License
-
-MIT
+All further information is only relevant if you wish to contribute to this repository.
+At this time there are no set guidelines for contributing.
+If you want to add or change something, please open an issue to discuss it and send a pull request.
+All additions should follow the guidelines for the purpose of this boilerplate outlined above.

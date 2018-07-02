@@ -1,131 +1,139 @@
-var webpack = require('webpack');
-var path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
 
-// variables
-var isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV === 'production';
-var sourcePath = path.join(__dirname, './src');
-var outPath = path.join(__dirname, './dist');
+const { NODE_ENV } = process.env;
+if (NODE_ENV !== 'production' && NODE_ENV !== 'development') {
+  throw new Error('Must set NODE_ENV to either production or development.');
+}
 
-// plugins
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const IS_PROD = NODE_ENV === 'production';
+
+const cssLoaders = (other) => ExtractTextPlugin.extract({
+  use: [{
+    loader: 'css-loader',
+    options: {
+      sourceMap: true,
+      // Enable CSS Modules to scope class names
+      modules: true,
+      minimize: IS_PROD,
+      importLoaders: 1 + other.length
+    }
+  }, {
+    // Adjust URLs in CSS files so that they are relative to the source file rather than the output file
+    loader: 'resolve-url-loader'
+  }, ...other],
+  // Do not extract in development mode for hot reloading
+  fallback: 'style-loader'
+});
+
+const jsLoaders = (other) => [{
+  loader: 'babel-loader'
+}, ...other];
 
 module.exports = {
-  context: sourcePath,
-  entry: {
-    app: './main.tsx'
-  },
+  // Allow TypeScript files to be treated as normal JS
+  resolve: {
+    extensions: [
+    '.js', '.jsx', '.ts', '.tsx'
+  ]},
+
+  // Enable source maps
+  devtool: IS_PROD ? 'source-map' : 'inline-source-map',
+
+  entry: [
+    // HMR for React
+    'react-hot-loader/patch',
+
+    // Main entrypoint
+    './src/index.tsx'
+  ],
+
   output: {
-    path: outPath,
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    chunkFilename: '[chunkhash].js',
     publicPath: '/'
   },
-  target: 'web',
-  resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
-    // Fix webpack's default behavior to not load packages with jsnext:main module
-    // (jsnext:main directs not usually distributable es6 format, but es6 sources)
-    mainFields: ['module', 'browser', 'main'],
-    alias: {
-      app: path.resolve(__dirname, 'src/app/')
-    }
-  },
+
   module: {
-    rules: [
-      // .ts, .tsx
-      {
-        test: /\.tsx?$/,
-        use: [
-          isProduction && {
-            loader: 'babel-loader',
-            options: { plugins: ['react-hot-loader/babel'] }
-          },
-          'ts-loader'
-        ].filter(Boolean)
-      },
-      // css
-      {
-        test: /\.css$/,
-        use: [
-          isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-          {
-            loader: 'css-loader',
-            query: {
-              modules: true,
-              sourceMap: !isProduction,
-              importLoaders: 1,
-              localIdentName: isProduction ? '[hash:base64:5]' : '[local]__[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: [
-                require('postcss-import')({ addDependencyTo: webpack }),
-                require('postcss-url')(),
-                require('postcss-cssnext')(),
-                require('postcss-reporter')(),
-                require('postcss-browser-reporter')({
-                  disabled: isProduction
-                })
-              ]
-            }
-          }
-        ]
-      },
-      // static assets
-      { test: /\.html$/, use: 'html-loader' },
-      { test: /\.(png|svg)$/, use: 'url-loader?limit=10000' },
-      { test: /\.(jpg|gif)$/, use: 'file-loader' }
-    ]
-  },
-  optimization: {
-    splitChunks: {
-      name: true,
-      cacheGroups: {
-        commons: {
-          chunks: 'initial',
-          minChunks: 2
-        },
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          chunks: 'all',
-          priority: -10
+    rules: [{
+      test: /\.css$/,
+      use: cssLoaders([])
+    }, {
+      test: /\.scss$/,
+      use: cssLoaders([{
+        loader: 'sass-loader',
+        options: {
+          sourceMap: true
         }
-      }
-    },
-    runtimeChunk: true
+      }])
+    }, {
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      use: jsLoaders([])
+    }, {
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      use: jsLoaders([{
+        loader: 'ts-loader'
+      }])
+    }, {
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      loader: 'tslint-loader',
+      // Force TSLint before other loaders
+      enforce: 'pre'
+    }, {
+      test: /\.(woff2?|png|tiff?|jpe?g)$/,
+      use: [{
+        // Include files as data urls
+        loader: 'url-loader',
+        options: {
+          // Only embed small files
+          limit: 10000
+        }
+      }]
+    }]
   },
-  plugins: [
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
-      DEBUG: false
+  plugins: [...[
+    // Actually output extracted CSS
+    new ExtractTextPlugin({
+      filename: 'main.css',
+      disable: !IS_PROD
     }),
-    new WebpackCleanupPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[contenthash].css',
-      disable: !isProduction
-    }),
+    // Generate an HTML-file to include all bundle outputs
     new HtmlWebpackPlugin({
-      template: 'assets/index.html'
+      template: 'src/index.ejs',
+      inject: 'body'
+    }),
+    // Inject proper value for NODE_ENV into build
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
     })
-  ],
+  ], ...(IS_PROD ? [
+    // Minify JS
+    new UglifyWebpackPlugin({
+      sourceMap: true,
+      uglifyOptions: {
+        ecma: 8,
+        safari10: true
+      }
+    })
+  ] : [
+    // Enable HMR
+    new webpack.HotModuleReplacementPlugin(),
+    // More readable module names in HMR
+    new webpack.NamedModulesPlugin()
+  ])],
+
   devServer: {
-    contentBase: sourcePath,
-    hot: true,
-    inline: true,
-    historyApiFallback: {
-      disableDotRule: true
-    },
-    stats: 'minimal'
-  },
-  node: {
-    // workaround for webpack-dev-server issue
-    // https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
-    fs: 'empty',
-    net: 'empty'
+    port: 5678,
+    // Serve index.html instead of 404
+    historyApiFallback: true,
+    // Enable Hot Module Reloading
+    hotOnly: true,
+    publicPath: '/'
   }
 };
