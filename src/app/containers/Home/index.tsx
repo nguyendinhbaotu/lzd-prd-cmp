@@ -1,14 +1,20 @@
 require('./index.scss')
 import * as React from "react";
-import { Item } from "app/components/Item";
+import { Item } from "app/item.module/Item";
+import { Dispatch, Action } from "redux";
+import { parseUrl } from "app/item.module/action";
 
-export interface IHomeProps {}
-export interface IHomeState {}
-export class Home extends React.Component<IHomeProps, IHomeState> {
+export interface HomeProps {
+  dispatch: Dispatch<Action<any>>;
+}
+export interface HomeState {}
+export class Home extends React.Component<HomeProps, HomeState> {
   render() {
     return (
       <div>
-        <Item/>
+        <Item
+          parseUrl={(t) => this.props.dispatch(parseUrl(t))}
+        />
       </div>
     );
   }
