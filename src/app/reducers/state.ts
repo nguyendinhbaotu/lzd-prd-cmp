@@ -4,6 +4,7 @@ import { ItemState } from 'app/item.module/model';
 
 export interface RootState {
   item: ItemState;
+  todos: RootState.TodoState;
   router: RouterState;
 }
 
