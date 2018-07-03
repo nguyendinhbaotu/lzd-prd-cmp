@@ -26,6 +26,7 @@ export class Item extends React.Component<ItemProps, ItemState> {
 
   onSubmit = (e: any) => {
     e.preventDefault();
+    console.log(this.state.url)
     this.props.parseUrl(this.state.url)
     // this.props.dispatch(parseUrl(this.state.url));
   };
@@ -36,7 +37,7 @@ export class Item extends React.Component<ItemProps, ItemState> {
         <div>
           This is Item template
           <input type="text" value={this.state.url} onChange={this.onChange} />
-          <button onSubmit={this.onSubmit} type="submit">
+          <button onClick={this.onSubmit} onSubmit={this.onSubmit} type="submit">
             Submit
           </button>
         </div>
