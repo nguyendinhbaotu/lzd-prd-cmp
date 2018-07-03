@@ -3,18 +3,20 @@ const {
   HotModuleReplacementPlugin,
   NamedModulesPlugin
 } = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  devtool: 'eval-source-map',
   entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './src/index'
+    'react-hot-loader/patch',
+    path.join(__dirname, 'src/index.tsx')
   ],
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.join(__dirname, './dist'),
-    publicPath: '/dist/'
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -54,6 +56,11 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      inject: 'body',
+      filename: 'index.html'
+    }),
     new HotModuleReplacementPlugin(),
     new NamedModulesPlugin(),
   ]
