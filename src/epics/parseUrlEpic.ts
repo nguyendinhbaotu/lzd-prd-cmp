@@ -15,7 +15,7 @@ export const parseUrlEpic = (action$, state) =>
       return ajax.getJSON(`http://localhost:9090/parse?url=${action.url}`).pipe(
         map((response) => {
           debugger;
-          parseUrlFulfilled(response as ItemInformation);
+          return parseUrlFulfilled(response as ItemInformation);
         })
       );
     })
