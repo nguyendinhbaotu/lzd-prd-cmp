@@ -4,10 +4,9 @@
   "description": "In this sample we are going to setup the basic plumbing to \"build\" our project and launch it in a dev server.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server  --mode development --inline --hot --open",
-    "build": "webpack  --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon server.js"
+    "client:start": "webpack-dev-server  --mode development --inline --hot --open",
+    "client:build": "webpack  --mode development",
+    "server:start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
