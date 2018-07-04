@@ -1,0 +1,5 @@
+
+export const actionsEnums = {
+  UPDATE_USERPROFILE_NAME : 'UPDATE_USERPROFILE_NAME ',
+  PARSE_URL: 'PARSE_URL'
+}

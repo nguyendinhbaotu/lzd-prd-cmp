@@ -1,66 +1,214 @@
-# Frontend Boilerplate with React, Redux & TypeScript
+# 02 Change Name
 
-A bare minimum react-redux-webpack-typescript boilerplate with TodoMVC example. 
+This sample takes as starting point _01 helloRedux_
 
-[Live demo](https://rokoroku.github.io/react-redux-typescript-boilerplate)
+In this sample we will add a component that will let us change the name of the
+user.
 
-Note that this project does not include **Server-Side Rendering**,  **Testing Frameworks** and other stuffs that makes the package unnecessarily complicated.
+Summary steps:
 
-Ideal for creating React apps from the scratch.
+- Create a nameEdit presentational component.
+- Create an action const file.
+- Create an action creator to get the name updated.
+- Handle this action in the reducer.
+- Create a nameEditContainer component to wire it up.
+- Let's create an _app_ component and instantiate in `main.tsx`
 
-See also: [react-mobx-typescript-boilerplate](https://github.com/rokoroku/react-mobx-typescript-boilerplate)
+# Prerequisites
 
-### Branches
-- [`feature-tslint`](https://github.com/rokoroku/react-redux-typescript-boilerplate/tree/feature/tslint): yarn + tslint + prettier integrated branch.
+Install [Node.js and npm](https://nodejs.org/en/) (>=v6.6.0) if they are not already installed on your computer.
 
-## Contains
+> Verify that you are running at least node v6.x.x and npm 3.x.x by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
 
-- [x] [Typescript](https://www.typescriptlang.org/) 2.9
-- [x] [React](https://facebook.github.io/react/) 16.4
-- [x] [Redux](https://github.com/reactjs/redux) 4
-- [x] [React Router](https://github.com/ReactTraining/react-router) 4.3
-- [x] [React Router Redux](https://github.com/reactjs/react-router-redux) 5
-- [x] [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
-- [x] [TodoMVC example](http://todomvc.com)
+## Steps to build it
 
-### Build tools
+- Create a nameEdit presentational component. In `src/nameEdit.tsx`:
 
-- [x] [Webpack](https://webpack.github.io) 4
-  - [x] [Tree Shaking](https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80)
-  - [x] [Webpack Dev Server](https://github.com/webpack/webpack-dev-server)
-- [x] [Typescript Loader](https://github.com/TypeStrong/ts-loader)
-- [x] [PostCSS Loader](https://github.com/postcss/postcss-loader)
-  - [x] [CSS next](https://github.com/MoOx/postcss-cssnext)
-  - [x] [CSS modules](https://github.com/css-modules/css-modules)
-- [x] [React Hot Loader](https://github.com/gaearon/react-hot-loader)
-- [x] [Mini CSS Extract Plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)
-- [x] [HTML Webpack Plugin](https://github.com/ampedandwired/html-webpack-plugin)
-- [x] [Prettier](https://github.com/prettier/prettier)
+_./src/components/nameEdit/nameEdit.tsx_
 
-## Setup
+```javascript
+import * as React from 'react';
 
-```
-$ npm install
-```
+interface Props {
+  userName : string;
+  onChange : (name : string) => void;
+}
 
-## Running
-
-```
-$ npm start
+export const NameEditComponent = (props: Props) => {
+  return (
+    <div>
+      <label>Update Name:</label>
+      <input
+        value={props.userName}
+        onChange={(e : any) => props.onChange(e.target.value)}
+        />
+    </div>
+  );
+}
 ```
 
-## Build
+- Create an action const file, let's create them under the following
+fullpath `./src/common/actionsEnums.ts`.
 
-```
-$ npm run build
-```
-
-## Prettier
-
-```
-$ npm run prettier
+_./src/common/actionsEnums.ts_
+```javascript
+export const actionsEnums = {
+  UPDATE_USERPROFILE_NAME : 'UPDATE_USERPROFILE_NAME '
+}
 ```
 
-# License
+- Create an action dispatcher to get the name updated, full path:
+`./src/actions/updateUserProfileName.ts`.
 
-MIT
+_./src/actions/updateUserProfileName.ts_
+
+```javascript
+import {actionsEnums} from '../common/actionsEnums';
+
+export const updateUserProfileName = (newName : string) => ({  
+    type: actionsEnums.UPDATE_USERPROFILE_NAME,
+    newName : newName,  
+});
+```
+
+- Handle this action in the `userProfile` reducer.
+
+_./src/reducers/userProfile.ts_
+
+```diff
++ import {actionsEnums} from '../common/actionsEnums';
+
+class UserProfileState {
+  firstname : string;
+
+  constructor() {
+    this.firstname = "Default name";
+  }
+}
+
+export const userProfileReducer =  (state : UserProfileState = new UserProfileState(), action) => {
++ switch (action.type) {
++   case actionsEnums.UPDATE_USERPROFILE_NAME:
++     return handleUserProfileAction(state, action);
++ }
++
+  return state;
+};
+
++ const handleUserProfileAction = (state : UserProfileState, action) => {
++   return {
++     ...state,
++     firstname: action.newName,
++   };
++ }
+
+```
+
+- Create a nameEditContainer component to wire it up. In `src/nameEditContainer.tsx`:
+
+_./src/components/nameEdit/nameEditContainer.tsx_
+
+```javascript
+import { connect } from 'react-redux';
+import { NameEditComponent } from './nameEdit';
+import {updateUserProfileName} from '../../actions/updateUserProfilename';
+import { State } from '../../reducers'
+
+const mapStateToProps = (state : State) => {
+  return {
+    userName: state.userProfileReducer.firstname
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onChange: (name : string) => dispatch(updateUserProfileName(name))
+  }
+}
+
+export const NameEditContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NameEditComponent);
+```
+
+- Let's expose NameEditContainer via an index.ts
+
+_./src/components/nameEdit/index.ts_
+
+```javascript
+export {NameEditContainer} from './nameEdit/nameEditContainer';
+```
+
+
+- Let's create an _app_ component in `src/app.tsx`
+
+### ./src/app.tsx
+```javascript
+import * as React from 'react';
+import {HelloWorldContainer, NameEditContainer} from './components';
+
+export const App = () => {
+  return (
+    <div>
+      <HelloWorldContainer/>
+      <br/>
+      <NameEditContainer/>
+    </div>
+  );
+}
+```
+And instantiate it in `main.tsx`:
+
+### ./src/main.tsx
+```diff
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import {reducers} from './reducers'
+- import {HelloWorldContainer} from './helloWorldContainer';
++ import {App} from './app';
+
+let store = createStore(reducers);
+
+ReactDOM.render(
+   <Provider store={store}>
+-     <HelloWorldContainer/>
++     <App/>
+   </Provider>,
+   document.getElementById('root'));
+
+```
+
+- Let's test the sample:
+
+```
+npm start
+```
+
+- Thas was cool the sample is working, but where is all the benefit of using redux... let's 
+add redux dev tool support.
+
+You can install redux dev tool as a chrome plugin.
+
+https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=es
+
+And to enable it in our code:
+
+_./src/main.tsx_
+
+```diff
++ const nonTypedWindow : any = window;
+- const store = createStore(reducers);
++ const store = createStore(reducers,
++                           nonTypedWindow.__REDUX_DEVTOOLS_EXTENSION__ && nonTypedWindow.__REDUX_DEVTOOLS_EXTENSION__()
++ );
+
+```
+
+More info about how this works:
+
+https://github.com/zalmoxisus/redux-devtools-extension
+
+
