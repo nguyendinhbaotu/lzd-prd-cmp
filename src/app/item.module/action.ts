@@ -14,6 +14,11 @@ const parseUrl = createAction<ItemState, string>(
     (url: string) => ({ url })
 );
 
+export const parseUrlAction = (url) => ({
+  type: PARSE_URL,
+  payload: url
+});
+
 export {
     parseUrl
 }

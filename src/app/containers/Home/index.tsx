@@ -32,4 +32,6 @@ const mapStateToProps = state => ({
   ...state
 });
 
+const map
+
 export default connect(mapStateToProps)(Home);
