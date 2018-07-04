@@ -7,7 +7,7 @@ export interface RootState {
   itemInformationReducer : ItemInformationState;
 };
 
-export const reducers = combineReducers<RootState>({
+export const rootReducer = combineReducers<RootState>({
   userProfileReducer,
   itemInformationReducer
 });

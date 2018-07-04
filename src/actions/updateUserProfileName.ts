@@ -1,6 +1,6 @@
-import {actionsEnums} from '../common/actionsEnums';
+import { Actions } from '../common/actions';
 
 export const updateUserProfileName = (newName : string) => ({  
-    type: actionsEnums.UPDATE_USERPROFILE_NAME,
+    type: Actions.UPDATE_USERPROFILE_NAME,
     newName : newName,  
 });

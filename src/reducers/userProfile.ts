@@ -1,4 +1,4 @@
-import { actionsEnums } from '../common/actionsEnums';
+import { Actions } from '../common/actions';
 
 export interface UserProfileState {
   firstname: string;
@@ -10,7 +10,7 @@ const defaultUserState: () => UserProfileState = () => ({
 
 export const userProfileReducer = (state = defaultUserState(), action) => {
   switch (action.type) {
-    case actionsEnums.UPDATE_USERPROFILE_NAME:
+    case Actions.UPDATE_USERPROFILE_NAME:
       return handleUserProfileAction(state, action);
   }
 

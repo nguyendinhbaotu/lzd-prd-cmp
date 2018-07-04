@@ -1,4 +1,4 @@
-import { actionsEnums } from '../common/actionsEnums';
+import { Actions } from '../common/actions';
 
 export interface ItemInformationState {
   url: string;
@@ -10,12 +10,17 @@ const defaultUserState: () => ItemInformationState = () => ({
 
 export const itemInformationReducer = (state = defaultUserState(), action) => {
   switch (action.type) {
-    case actionsEnums.PARSE_URL:
+    case Actions.PARSE_URL:
       return {
         ...state,
-        url: action.url,
-      }
+        url: action.url
+      };
+    case Actions.PARSE_URL_FULFILLED:
+      return {
+        ...state,
+        item: action.payload
+      };
   }
 
   return state;
-}
+};
