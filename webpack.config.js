@@ -12,7 +12,7 @@ module.exports = {
   },
   entry: [
     './main.tsx',
-    '../node_modules/bootstrap/dist/css/bootstrap.css'
+    // '../node_modules/bootstrap/dist/css/bootstrap.css'
   ],
   output: {
     path: path.join(basePath, 'dist'),
@@ -37,8 +37,8 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,        
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
+        test: /\.s?css$/,        
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

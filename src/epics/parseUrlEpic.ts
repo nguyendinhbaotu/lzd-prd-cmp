@@ -11,25 +11,10 @@ import { RootState } from '../reducers';
 export const parseUrlEpic = (action$, state) =>
   action$.ofType(Actions.PARSE_URL).pipe(
     mergeMap((action: any) => {
-      debugger;
       return ajax.getJSON(`http://localhost:9090/parse?url=${action.url}`).pipe(
         map((response) => {
-          debugger;
           return parseUrlFulfilled(response as ItemInformation);
         })
       );
     })
   );
-
-// export const parseUrlEpic: Epic<Action, any> = (action$, state) =>
-//   action$.ofType(Actions.PARSE_URL).pipe(
-//     mergeMap((action) => {
-//       debugger;
-//       return ajax.getJSON(`http://localhost:9090/parse?url=${state.url}`).pipe(
-//         map((response) => {
-//           debugger;
-//           return parseUrlFulfilled(response as ItemInformation);
-//         })
-//       );
-//     })
-//   );

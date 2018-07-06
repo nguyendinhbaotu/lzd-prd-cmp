@@ -1,16 +1,17 @@
 import * as React from 'react';
-import {HelloWorldContainer, NameEditContainer} from './components';
-import { UrlInputContainer } from './components/url-input.component';
-// import { UrlInputContainer } from './components/url-input.component';
+import './app.scss';
+import { HelloWorldContainer, NameEditContainer, UrlInputContainer, ItemInformationContainer } from './components';
 
 export const App = () => {
-  return (
-    <div>
-      <HelloWorldContainer/>
-      <br/>
-      <NameEditContainer/>
-      <br/>
-      <UrlInputContainer/>
-    </div>
-  );
+    return (
+        <div>
+            <HelloWorldContainer />
+            <br />
+            <NameEditContainer />
+            <br />
+            <UrlInputContainer />
+            <br />
+            <ItemInformationContainer />
+        </div>
+    );
 }

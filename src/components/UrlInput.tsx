@@ -52,7 +52,6 @@ const mapDispatchToProps = dispatch => {
   let props = {
     dispatchParseUrlAction: (url: string) => dispatch(parseUrl(url))
   };
-  debugger
   return props
 };
 

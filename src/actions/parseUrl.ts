@@ -6,7 +6,9 @@ export const parseUrl = (url : string) => ({
     url : url,  
 });
 
-export const parseUrlFulfilled = (payload: ItemInformation) => {{
-    type: Actions.PARSE_URL_FULFILLED,
-    payload
-}}
+export const parseUrlFulfilled = (payload: ItemInformation) => {
+    return {
+        type: Actions.PARSE_URL_FULFILLED,
+        payload
+    }
+}

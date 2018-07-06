@@ -1,11 +1,17 @@
 import { Actions } from '../common/actions';
+import { ItemInformation } from '../common/models';
 
 export interface ItemInformationState {
   url: string;
+  item: ItemInformation
 }
 
 const defaultUserState: () => ItemInformationState = () => ({
-  url: ''
+  url: '',
+  item: {
+      title: '',
+      price: ''
+  }
 });
 
 export const itemInformationReducer = (state = defaultUserState(), action) => {
