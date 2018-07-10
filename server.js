@@ -1,15 +1,13 @@
-const express = require('express')
-const request = require('request')
-const jsdom = require('jsdom')
-const {
-  JSDOM
-} = jsdom;
+const express = require('express');
+const request = require('request');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
-const app = express()
-const port = 9090
+const app = express();
+const port = 9090;
 
 // Add headers
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
   // Request methods you wish to allow
@@ -23,7 +21,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send('Hello World!'));
 
 app.get('/parse', (req, res) => {
   let url = req.query.url;
@@ -33,41 +31,39 @@ app.get('/parse', (req, res) => {
   //     "price": "1000$"
   //   })
 
-  request({
-    uri: url
-  }, function (error, response, body) {
-    let dom = new JSDOM(body)
-    let title = dom.window.document.getElementById('module_product_title_1').textContent
-    let priceElements = dom.window.document.querySelectorAll('.pdp-price')
-    let price = priceElements && priceElements[0] ? priceElements[0].textContent : ''
-    let originPrice = priceElements && priceElements[1] ? priceElements[1].textContent : ''
-    let specElements = dom.window.document.querySelectorAll('.key-li');
-    console.log(specElements)
-    if (specElements && specElements.length) {
-        // let specs = specElements.map(specElement => {
-        //   let specTitle = specElement.querySelect('.key-title').textContent
-        //   let specValue = specElement.querySelect('.key-value').textContent
-        //   return {
-        //     title: specTitle,
-        //     value: specValue
-        //   }
-        // })
-        // console.log(specs)
+  request(
+    {
+      uri: url
+    },
+    function(error, response, body) {
+      let dom = new JSDOM(body);
+      let title = dom.window.document.getElementById('module_product_title_1').textContent;
+      let priceElements = dom.window.document.querySelectorAll('.pdp-price');
+      let price = priceElements && priceElements[0] ? priceElements[0].textContent : '';
+      let originPrice = priceElements && priceElements[1] ? priceElements[1].textContent : '';
+      let specElements = dom.window.document.querySelectorAll('.key-li');
+      let specs = [];
+      if (specElements && specElements.length) {
+        specElements.forEach((specElement) => {
+          // console.log(specElement)
+          // console.log(specElement.querySelector('.key-title'))
+          let specTitle = specElement.querySelector('.key-title').textContent.trim();
+          let specValue = specElement.querySelector('.key-value').textContent.trim();
+          specs.push({
+            title: specTitle,
+            value: specValue
+          });
+        });
+      }
+      res.json({
+        url,
+        title,
+        price,
+        originPrice,
+        specs: specs
+      });
     }
-    // let price = '1000$'
-    // console.log(dom.window.document.querySelector('.pdp-price').textContent)
+  );
+});
 
-    console.log(title)
-    console.log(price)
-    res.json({
-      url,
-      title,
-      price,
-      originPrice,
-    //   specs
-    })
-    // console.log(body)
-  });
-})
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

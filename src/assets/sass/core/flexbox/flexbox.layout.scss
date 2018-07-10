@@ -1,0 +1,27 @@
+$columns: 12;
+@mixin col-x($width) {
+    flex-basis: 100% / 12 * $width;
+}
+
+@mixin col-sm-x($width) {
+    @media screen and (max-width: 1366px) {
+        flex-basis: 100% / 12 * $width;
+    }
+}
+
+@mixin col-x-list($size) {
+    @if $size=='sm' {
+        @for $i from 1 through $columns {
+            &-#{$size}-#{$i}-12 {
+                @include col-sm-x($i)
+            }
+        }
+    }
+    @else {
+        @for $i from 1 through $columns {
+            &-#{$i}-12 {
+                @include col-x($i)
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+@mixin animate-background($delay) {
+    transition: background-color $delay linear
+}
+
+@mixin animate-color($delay) {
+    transition: color $delay linear
+}
+
+@mixin animate-text-link($height, $color) {
+    &:after {
+        content: '';
+        display: block;
+        margin: auto;
+        height: $height;
+        width: 0px;
+        background: transparent;
+        transition: width .5s ease, background-color .5s ease;
+    }
+    &:hover:after {
+        width: 100%;
+        background: $color;
+    }
+    &.selected {
+        border-bottom: 1px solid $color;
+        &:after {
+            width: 100%;
+            background: $color;
+        }
+    }
+}

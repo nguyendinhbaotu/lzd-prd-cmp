@@ -1,0 +1,133 @@
+@import './flexbox.layout';
+
+%displayFlex {
+    display: flex;
+}
+
+.flx-ctn {
+    &-col {
+        @extend %displayFlex;
+        flex-direction: column;
+    }
+    &-col-reverse {
+        @extend %displayFlex;
+        flex-direction: column-reverse
+    }
+    &-row {
+        @extend %displayFlex;
+        flex-direction: row;
+    }
+    &-row-reverse {
+        @extend %displayFlex;
+        flex-direction: row-reverse
+    }
+}
+
+[class*="flx-ctn"]{
+    &.center {
+        justify-content: center;
+    }
+    &.end {
+        justify-content: flex-end;
+    }
+
+    &.space-evenly {
+        justify-content: space-evenly;
+    }
+
+    &.a-center {
+        align-items: center;
+    }
+
+    &.a-start {
+        align-items: flex-start;
+    }
+
+    &.a-end {
+        align-items: flex-end;
+    }
+
+    &.wrap {
+        flex-wrap: wrap;
+    }
+
+    &.flow-row-reverse {
+        flex-flow: row-reverse;
+    }
+
+    &.flx-100 {
+        width: 100%;
+        height: 100%;
+        min-height: 0; // fix for Firefox
+        min-width: 0; // fix for Firefox
+    }
+
+    &.flx-h100 {
+        height: 100%;
+        min-height: 0;
+    }
+
+    &.flx-w100 {
+        width: 100%;
+        min-width: 0;
+    }
+
+    &.flx-center {
+        align-self: center;
+    }
+}
+
+%flexItem {
+    // overflow: auto;
+    @extend %displayFlex;
+}
+
+.flx-itm {
+    flex: none;
+    &-none {
+        flex: none;
+    }
+    &-grow {
+        flex: 1;
+    }
+    &-1 {
+        flex: 1;
+    }
+    &-2 {
+        flex: 2;
+    }
+    &-3 {
+        flex: 3;
+    }
+    &-center {
+        align-self: center;
+    }
+    &-bottom {
+        align-self: flex-end;
+    }
+    @include col-x-list(''); // flx-itm-1-12, flx-itm-2-12, flx-itm-3-12, ...
+    @include col-x-list('sm'); // flx-itm-sm-1-12, flx-itm-sm-2-12, flx-itm-sm-3-12, ...
+}
+
+[class*="flx-itm"] {
+    @extend %flexItem;
+    &.flx-center {
+        align-self: center;
+    }
+    &.flx-right {
+        margin-left: auto;
+    }
+}
+
+.flex-full {
+    flex-grow: 1;
+    position: relative;
+}
+
+.flex-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}

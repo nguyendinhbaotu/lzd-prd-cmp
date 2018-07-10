@@ -47,6 +47,13 @@ module.exports = {
           name: 'assets/img/[name].[ext]?[hash]'
         }
       },
+      {
+        test: /\.(woff|woff2|ttf|eot)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'assets/fonts/[name].[ext]?[hash]'
+        }
+      },
     ],
   },
   plugins: [

@@ -6,8 +6,7 @@
   "scripts": {
     "client:start": "webpack-dev-server  --mode development --inline --hot --open",
     "client:build": "webpack  --mode development",
-    "babel-node": "babel-node --presets=latest",
-    "server:start": "nodemon --exec npm run babel-node -- server.js"
+    "server:start": "nodemon server.js --exec babel-node --presets es2015,stage-2"
   },
   "author": "",
   "license": "ISC",
@@ -35,6 +34,7 @@
   "dependencies": {
     "bootstrap": "^4.1.0",
     "express": "^4.16.3",
+    "font-awesome": "^4.7.0",
     "jsdom": "^11.11.0",
     "node-sass": "^4.9.1",
     "react": "^16.3.2",
@@ -44,10 +44,5 @@
     "redux-observable": "^1.0.0",
     "rxjs": "^6.2.1",
     "sass-loader": "^7.0.3"
-  },
-  "babel": {
-    "presets": [
-      "latest"
-    ]
   }
 }
