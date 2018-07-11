@@ -3,46 +3,49 @@ $fa-font-path: '../node_modules/font-awesome/fonts';
 @import 'node_modules/font-awesome/scss/font-awesome';
 @import 'src/assets/sass/core/flexbox/flexbox';
 @import 'src/assets/sass/core/mixins/margin-padding.mixin';
+@import 'src/assets/sass/core/mixins/reponsive-image.mixin';
 @include margin-padding-list-generator(); // m-t-5, m-t-10, m-b-5, m-b-10, ...
-
-
-
 body {
-    height: 100vh;
-    margin: 0px;
+  height: 100vh;
+  margin: 0px;
 }
 
 #root {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .url-section {
-    height: 300px;
-    .phone-image-container {
-        background-image: url('//laz-img-sg.alicdn.com/p/2/apple-iphone-8-256gb-2gb-ram-grey-0734-89319206-661b8ed8fbf9d5bb575c7d8c09b8a9ac-catalog.jpg_340x340q80.jpg_.webp');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-
-        &.phone-1 {
-            background-image: url('//laz-img-sg.alicdn.com/p/2/apple-iphone-8-plus-256gb-space-grey-1511772000-55213477-8ce5fc6991abb11be5c4be0b9d1104ac-catalog.jpg_340x340q80.jpg_.webp');
-        }
-        &.phone-2 {
-            background-image: url('//laz-img-sg.alicdn.com/p/2/apple-iphonex-256gb-space-grey-3090-93213477-306eb1b3bbfc00334f984311d426e664-catalog.jpg_340x340q80.jpg_.webp');
-        }
+  height: 300px;
+  .phone-image-container {
+    @include reponsive-image('//laz-img-sg.alicdn.com/p/2/apple-iphone-8-256gb-2gb-ram-grey-0734-89319206-661b8ed8fbf9d5bb575c7d8c09b8a9ac-catalog.jpg_340x340q80.jpg_.webp');
+    &.phone-1 {
+      background-image: url('//laz-img-sg.alicdn.com/p/2/apple-iphone-8-plus-256gb-space-grey-1511772000-55213477-8ce5fc6991abb11be5c4be0b9d1104ac-catalog.jpg_340x340q80.jpg_.webp');
     }
+    &.phone-2 {
+      background-image: url('//laz-img-sg.alicdn.com/p/2/apple-iphonex-256gb-space-grey-3090-93213477-306eb1b3bbfc00334f984311d426e664-catalog.jpg_340x340q80.jpg_.webp');
+    }
+  }
+  .banner {
+    @include reponsive-image('/assets/images/banner.png');
+  }
+}
+
+.spec-section {
+  border-top: 1px solid rgba(#000, 0.1);
+  .spec-value-container {
+    border-left: 1px solid rgba(#000, 0.1);
+  }
+  &:last-child() {
+    border-bottom: 1px solid rgba(#000, 0.1);
+  }
 }
 
 .spec-key-container {
-    width: 200px;
-    // background: lightcoral;
-}
-
-.phone-container {
-    // background: lightgreen;
-
-    &:nth-child(2) {
-        // background: lightblue;
-    }
+  width: 200px;
+  .spec-key-title {
+    text-transform: capitalize;
+    color: lightcoral;
+    text-align: right;
+  }
 }

@@ -4,7 +4,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const app = express();
-const port = 9090;
+const port = 6969;
 
 // Add headers
 app.use(function(req, res, next) {
